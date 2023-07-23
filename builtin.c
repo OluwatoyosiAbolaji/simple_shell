@@ -22,7 +22,7 @@ int findbuiltin(shell *session)
 	int i = 0;
 	builtin getBuiltIns[] = {
 		{"exit", exitf},
-		{"printenv", env},
+		{"env", env},
 		{"setenv", setenvFunc},
 		{"unsetenv", unsetenvFunc},
 		{"cd", cd},
@@ -34,7 +34,7 @@ int findbuiltin(shell *session)
 		if (compare(session->args[0], getBuiltIns[i].string) == 0)
 		{
 			getBuiltIns[i].func(session);
-			freeargbuffer(session);
+			freeargs(session->args);
 			return (1);
 		}
 		i++;
@@ -55,6 +55,7 @@ int exitf(shell *session)
 	if (argCount == 1)
 	{
 		freeall(session);
+		freeargs(session->commands);
 		write(STDOUT_FILENO, "logout\n", length("logout\n"));
 		if (session->status)
 			exit(session->status);
@@ -71,6 +72,7 @@ int exitf(shell *session)
 			return (0);
 		}
 		freeall(session);
+		freeargs(session->commands);
 		write(STDOUT_FILENO, "exit\n", length("exit\n"));
 		exit(exitStatus);
 	}

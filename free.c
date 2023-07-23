@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * freeall - frees build config members
+ * freeall - frees shell session members
  * @session: last shell session
  */
 void freeall(shell *session)
@@ -56,6 +56,5 @@ void freeargs(char **args)
 
 	while (args[i])
 		free(args[i++]);
-	free(args[i]);
 	free(args);
 }

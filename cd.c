@@ -83,6 +83,7 @@ int cdprevious(shell *session)
 		chdir(current);
 		write(STDOUT_FILENO, current, length(current));
 		printline();
+		free(current);
 		return (-1);
 	}
 	str = getNodeAtIndex(session->env_list, i);
@@ -92,6 +93,7 @@ int cdprevious(shell *session)
 	write(STDOUT_FILENO, ptr, length(ptr));
 	printline();
 	free(str);
+	free(current);
 	return (1);
 }
 

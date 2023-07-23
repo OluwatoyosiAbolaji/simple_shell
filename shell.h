@@ -8,7 +8,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
-#include <stdbool.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -40,10 +39,12 @@ typedef struct list
  * @args: array of argument strings
  * @buffer: string buffer of user input
  * @pathway: array of $PATH locations
+ * @commands: an array of strings with each string containing one command
  * @full_path: string of path with $PATH
  * @name: name of shell
  * @linecount: counter of lines users have entered
  * @status: exit status of last child process
+ * @command_seperator: each element shows the next operator
  */
 typedef struct shell
 {
@@ -52,10 +53,12 @@ typedef struct shell
 	char **args;
 	char *buffer;
 	char *pathway;
+	char **commands;
 	char *full_path;
 	char *name;
 	int linecount;
 	int status;
+	char command_seperator[BUFF_MAX];
 } shell;
 
 /* String aid functions */
@@ -65,10 +68,12 @@ char *copy(char *dest, char *src);
 void setnull(char *string, int index);
 char *char_locate(char a, char *string);
 int index_locate(char *search, char *check);
+int string_locate(char *search, char *check);
 char *tokenize(char *string, char *delim);
 char *catenate(char *begin, char *end);
 int compare(char *a, char *b);
-int split(shell *session);
+int split(shell *session, char *str);
+char **create_doubleptr(int number, shell *session, char *delim);
 
 /* linked list aid functions */
 list *addnode(list **head, char *string);
@@ -115,10 +120,13 @@ void initialize_shell(shell *ptr, char **environ);
 void delete_comment(char *string);
 void get_input(shell *session);
 void execute_shell(shell *session);
+int execute_commands(shell *session);
+int execute_command(shell *session, char *command);
 char *_getenv(char *input, char **environ);
 void convert_list_to_arr(shell *session);
+int split_commands(shell *session);
 int set_home(shell *session);
-void new_process(shell *session);
+int new_process(shell *session);
 void printprompt(void);
 void printline(void);
 void check_path(shell *session);

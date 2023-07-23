@@ -43,13 +43,18 @@ void signalhandle(int a)
 
 void initialize_shell(shell *ptr, char **environ)
 {
+	int i;
+
 	ptr->env_list = create_list(environ);
 	ptr->env_strings = NULL;
 	ptr->args = NULL;
 	ptr->buffer = NULL;
 	ptr->pathway = _getenv("PATH", environ);
+	ptr->commands = NULL;
 	ptr->full_path = NULL;
 	ptr->linecount = 0;
 	ptr->name = NULL;
 	ptr->status = 0;
+	for (i = 0; i < BUFF_MAX; i++)
+		setnull(ptr->command_seperator, i);
 }

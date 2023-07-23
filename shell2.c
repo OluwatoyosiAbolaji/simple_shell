@@ -45,12 +45,11 @@ void get_input(shell *session)
 /**
   *new_process - initiates a new process
   *@session: pointer to shell information
-  *Return: void
+  *Return: 0 on success, -1 on failure
   */
-void new_process(shell *session)
+int new_process(shell *session)
 {
-	int status;
-	char **ar, **arr;
+	int status, i = 0;
 	pid_t pid;
 
 	convert_list_to_arr(session);
@@ -58,18 +57,16 @@ void new_process(shell *session)
 	if (pid == -1)
 	{
 		perror("Fork error\n");
-		freeall(session);
+		freeargs(session->args);
 		freeargs(session->env_strings);
 		exit(1);
-	}
-	if (pid == 0)
+	} else if (pid == 0)
 	{
-		ar = session->args;
-		arr = session->env_strings;
-		if (execve(session->full_path, ar, arr) == -1)
+		i = execve(session->full_path, session->args, session->env_strings);
+		if (i == -1)
 		{
 			errorHandler(session);
-			freeall(session);
+			freeargs(session->args);
 			freeargs(session->env_strings);
 			if (errno == ENOENT)
 				exit(127);
@@ -81,16 +78,21 @@ void new_process(shell *session)
 		wait(&status);
 		if (WIFEXITED(status))
 			session->status = WEXITSTATUS(status);
-		freeargbuffer(session);
 		freeargs(session->env_strings);
 	}
+	if (session->status == 127 || session->status == 126)
+	{
+		freeargs(session->args);
+		return (0);
+	}
+	return (1);
 }
 
 /**
   *set_home - changes ~ to the home directory name
   *@session: shell info
   *Return: 0 on success, -1 on failure
-  */
+*/
 
 int set_home(shell *session)
 {

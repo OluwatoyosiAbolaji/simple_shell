@@ -92,11 +92,8 @@ void execute_shell(shell *session)
 	while (1)
 	{
 		get_input(session);
-		if (split(session) == 0)
+		if (split_commands(session) == 0)
 			continue;
-		if (findbuiltin(session) == 1)
-			continue;
-		check_path(session);
-		new_process(session);
+		execute_commands(session);
 	}
 }

@@ -41,6 +41,7 @@ char *copy(char *dest, char *src)
 
 	return (dest);
 }
+
 /**
   *index_locate - check for the first occurrence of the second string in the
   *first
@@ -59,6 +60,7 @@ int index_locate(char *search, char *check)
 				return (s - search);
 	return (s - search);
 }
+
 /**
   *tokenize - seperate strings into tokens
   *@string: string to be tokenized
@@ -91,19 +93,19 @@ char *tokenize(char *string, char *delim)
 
 /**
   *split - seperates line into strings
+  *@str: string of command to be splitted
   *@session: struct containing info about the present session
   *Return: True if splited and False if not
   */
-int split(shell *session)
+int split(shell *session, char *str)
 {
 	int wordcount = 0, i;
-	char *token, *delim = " \t";
-	char *ptr = duplicate(session->buffer);
+	char *token, *ptr = NULL, *delim = " \t";
 	int indicator = 0;
 
-	for (i = 0; ptr[i]; i++)
+	for (i = 0; str[i]; i++)
 	{
-		if (ptr[i] == ' ' || ptr[i] == '\t')
+		if (str[i] == ' ' || str[i] == '\t')
 			indicator = 0;
 		else if (indicator == 0)
 		{
@@ -113,12 +115,16 @@ int split(shell *session)
 	}
 	if (wordcount == 0)
 	{
-		free(ptr);
-		free(session->buffer);
-		session->args = NULL;
+		free(str);
 		return (0);
 	}
 	session->args = malloc((sizeof(char *)) * (wordcount + 1));
+	if (session->args == NULL)
+	{
+		freeargs(session->commands);
+		return (0);
+	}
+	ptr = duplicate(str);
 	token = tokenize(ptr, delim);
 	i = 0;
 	while (token)
@@ -129,5 +135,5 @@ int split(shell *session)
 	}
 	session->args[i] = NULL;
 	free(ptr);
-	return (1);
+	return (wordcount);
 }
