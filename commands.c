@@ -101,7 +101,7 @@ int execute_commands(shell *session)
 			if (result == -1)
 				return (result);
 			num++;
-		} else if (session->command_seperator[num++] == ';') 
+		} else if (session->command_seperator[num++] == ';')
 		{
 			result = execute_command(session, session->commands[i]);
 			if (result == -1)
@@ -127,6 +127,9 @@ int execute_command(shell *session, char *command)
 	int i;
 
 	if (split(session, command) == 0)
+		return (-1);
+	i = check_variables(session);
+	if (i == -1)
 		return (-1);
 	i = findbuiltin(session);
 	if (i == 1)

@@ -73,6 +73,7 @@ char *tokenize(char *string, char *delim);
 char *catenate(char *begin, char *end);
 int compare(char *a, char *b);
 int split(shell *session, char *str);
+char *print_number(int n);
 char **create_doubleptr(int number, shell *session, char *delim);
 
 /* linked list aid functions */
@@ -148,5 +149,11 @@ void errorHandler(shell *session);
 char *getErrorMessage(void);
 unsigned int countDigits(int num);
 char *itoa(unsigned int num);
+
+/* Handling Variables */
+int replace_variable(shell *session, char *ptr, int index);
+int check_variables(shell *session);
+int replace_exit(shell *session, char *ptr, int index);
+int replace_pid(shell *session, char *ptr, int index);
 
 #endif /* SHELL_H */

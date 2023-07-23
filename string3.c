@@ -28,3 +28,39 @@ int string_locate(char *search, char *check)
 	}
 	return (-1);
 }
+
+/**
+ * print_number - converts an integer to a string.
+ * @n: The integer to be converted.
+ * Return: number in string form
+ */
+char *print_number(int n)
+{
+	unsigned int num = n;
+	char *string = NULL;
+	int j = 10, i = 0;
+
+	if (n < 0)
+		num = -(num);
+	for (i = 0; (num / j) > 0; j *= 10)
+		i++;
+	if (n < 0)
+		string = malloc(sizeof(char) * (i + 3));
+	else
+		string = malloc(sizeof(char) * (i + 2));
+	if (!string)
+		return (NULL);
+	if (n < 0)
+	{
+		string[i + 2] = '\0';
+		string[0] = '-';
+	}
+	string[i + 1] = '\0';
+	j = 10;
+	while (i >= 0)
+	{
+		string[i--] = ((num % j) + '0');
+		num /= 10;
+	}
+	return (string);
+}
