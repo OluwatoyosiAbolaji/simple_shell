@@ -84,27 +84,24 @@ int execute_commands(shell *session)
 
 	for (i = 0; session->commands[i]; i++)
 	{
-		if (num > 0)
-			num--;
-		if (session->command_seperator[num] == '|')
+		if (i == 0)
 		{
 			result = execute_command(session, session->commands[i]);
-			if (result == 1)
-			{
-				while (session->command_seperator[num++] == '|')
-					i++;
-			} else if (result == -1)
+			if (result == -1)
 				return (result);
-		} else if (session->command_seperator[num] == '&')
+		} else if (session->command_seperator[num] == '|' && !result)
 		{
 			result = execute_command(session, session->commands[i]);
-			if (result == -2)
-			{
-				while (session->command_seperator[num++] == '&')
-					i++;
-			} else if (result == -1)
+			if (result == -1)
 				return (result);
-		} else
+			num++;
+		} else if (session->command_seperator[num] == '&' && result)
+		{
+			result = execute_command(session, session->commands[i]);
+			if (result == -1)
+				return (result);
+			num++;
+		} else if (session->command_seperator[num++] == ';') 
 		{
 			result = execute_command(session, session->commands[i]);
 			if (result == -1)
@@ -122,7 +119,7 @@ int execute_commands(shell *session)
   *execute_command - executes one command
   *@session: shell info
   *@command: command to be executed
-  *Return: 1 on success, -1 or -2 on failure
+  *Return: 1 on success, -1 or 0 on failure
   */
 
 int execute_command(shell *session, char *command)
@@ -137,7 +134,7 @@ int execute_command(shell *session, char *command)
 	check_path(session);
 	i = new_process(session);
 	if (!i)
-		return (-2);
+		return (0);
 	freeargs(session->args);
 	return (1);
 }
