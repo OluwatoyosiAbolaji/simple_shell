@@ -8,6 +8,8 @@ void freeall(shell *session)
 {
 	if (session->env_list)
 		freelist(session->env_list);
+	if (session->aliases)
+		freelist(session->aliases);
 	if (session->args)
 		freeargs(session->args);
 	if (session->buffer)

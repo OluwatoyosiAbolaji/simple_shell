@@ -45,6 +45,7 @@ typedef struct list
  * @linecount: counter of lines users have entered
  * @status: exit status of last child process
  * @command_seperator: each element shows the next operator
+ * @aliases: a linked list of aliases in the program
  */
 typedef struct shell
 {
@@ -59,6 +60,7 @@ typedef struct shell
 	int linecount;
 	int status;
 	char command_seperator[BUFF_MAX];
+	list *aliases;
 } shell;
 
 /* String aid functions */
@@ -155,5 +157,10 @@ int replace_variable(shell *session, char *ptr, int index);
 int check_variables(shell *session);
 int replace_exit(shell *session, char *ptr, int index);
 int replace_pid(shell *session, char *ptr, int index);
+
+/* Handles aliases */
+int alias(shell *session);
+int create_alias(shell *session);
+int check_alias(list *alias, char *arg);
 
 #endif /* SHELL_H */

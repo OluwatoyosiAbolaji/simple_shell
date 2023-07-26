@@ -8,7 +8,7 @@
 void check_path(shell *session)
 {
 	int i = 1, len, a = 0;
-	char command[BUFF_MAX];
+	char command[BUFF_MAX], *string = NULL;
 	char *pathcopy = duplicate(session->pathway);
 	char *token = tokenize(pathcopy, ":");
 	char *str = session->args[0];
@@ -17,7 +17,7 @@ void check_path(shell *session)
 	while (a < BUFF_MAX)
 		setnull(command, a++);
 	if (!i)
-		session->full_path = str;
+		session->full_path = duplicate(str);
 	else
 	{
 		while (token)
@@ -30,8 +30,12 @@ void check_path(shell *session)
 			i = access(command, X_OK);
 			if (!i)
 			{
-				session->full_path = command;
+				string = malloc(sizeof(char) * (length(command) + 1));
+				copy(string, command);
+				session->full_path = string;
 				free(pathcopy);
+				if (string == NULL)
+					break;
 				return;
 			}
 			setnull(command, 0);
@@ -39,5 +43,5 @@ void check_path(shell *session)
 		}
 	}
 	free(pathcopy);
-	session->full_path = str;
+	session->full_path = duplicate(str);
 }

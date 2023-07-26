@@ -49,8 +49,7 @@ void get_input(shell *session)
   */
 int new_process(shell *session)
 {
-	int status, i = 0;
-	pid_t pid;
+	int status, i = 0, pid;
 
 	convert_list_to_arr(session);
 	pid = fork();
@@ -78,6 +77,7 @@ int new_process(shell *session)
 		wait(&status);
 		if (WIFEXITED(status))
 			session->status = WEXITSTATUS(status);
+		free(session->full_path);
 		freeargs(session->env_strings);
 	}
 	if (session->status == 127 || session->status == 126)

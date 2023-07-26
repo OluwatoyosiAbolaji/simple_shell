@@ -143,4 +143,3 @@ int nodesprint(list *head)
 
 	return (num);
 }
-

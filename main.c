@@ -57,4 +57,5 @@ void initialize_shell(shell *ptr, char **environ)
 	ptr->status = 0;
 	for (i = 0; i < BUFF_MAX; i++)
 		setnull(ptr->command_seperator, i);
+	ptr->aliases = NULL;
 }
