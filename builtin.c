@@ -56,7 +56,6 @@ int exitf(shell *session)
 	{
 		freeall(session);
 		freeargs(session->commands);
-		write(STDOUT_FILENO, "logout\n", length("logout\n"));
 		if (session->status)
 			exit(session->status);
 		exit(EXIT_SUCCESS);
@@ -73,7 +72,6 @@ int exitf(shell *session)
 		}
 		freeall(session);
 		freeargs(session->commands);
-		write(STDOUT_FILENO, "exit\n", length("exit\n"));
 		exit(exitStatus);
 	}
 	return (1);
