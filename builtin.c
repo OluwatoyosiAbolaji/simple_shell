@@ -26,7 +26,6 @@ int findbuiltin(shell *session)
 		{"setenv", setenvFunc},
 		{"unsetenv", unsetenvFunc},
 		{"cd", cd},
-		{"alias", alias},
 		{NULL, NULL}
 	};
 
