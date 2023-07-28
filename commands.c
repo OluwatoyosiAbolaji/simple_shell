@@ -9,7 +9,7 @@
 int split_commands(shell *session)
 {
 	char *delim = ";|&", *string = session->buffer;
-	int i = 0, j = 0, command_count = 0, num = 0, a;
+	int i = 0, j = 0, command_count = 0, num = 0, a = 0;
 
 	for (i = 0; session->buffer[i] == ' ';)
 		a = ++i;
