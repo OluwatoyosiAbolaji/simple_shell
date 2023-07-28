@@ -52,7 +52,6 @@ int new_process(shell *session)
 {
 	int status, i = 0, pid;
 
-	convert_list_to_arr(session);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -70,7 +69,7 @@ int new_process(shell *session)
 			freeargs(session->env_strings);
 			if (errno == ENOENT)
 				exit(127);
-			if (errno == EACCES)
+			else if (errno == EACCES)
 				exit(126);
 		}
 	} else

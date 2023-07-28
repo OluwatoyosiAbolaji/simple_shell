@@ -1,0 +1,122 @@
+builtin.c:	i = nodesprint(session->env_list);
+builtin.c:		if (compare(session->args[0], getBuiltIns[i].string) == 0)
+builtin.c:			freeargs(session->args);
+builtin.c:	argCount = countargs(session->args);
+builtin.c:		freeargs(session->commands);
+builtin.c:		if (session->status)
+builtin.c:			exit(session->status);
+builtin.c:		exitStatus = _atoi(session->args[1]);
+builtin.c:			session->status = 2;
+builtin.c:		freeargs(session->commands);
+cd.c:	while (session->args[i])
+cd.c:	else if (i == 2 && (compare(session->args[1], "-") == 0))
+cd.c:		i = chdir(session->args[1]);
+cd.c:	index = node_search_index(session->env_list, "HOME");
+cd.c:	string = getNodeAtIndex(session->env_list, index);
+cd.c:	i = node_search_index(session->env_list, "OLDPWD");
+cd.c:	str = getNodeAtIndex(session->env_list, i);
+cd2.c:	index = node_search_index(session->env_list, "PWD");
+cd2.c:	string = getNodeAtIndex(session->env_list, index);
+cd2.c:	index = node_search_index(session->env_list, "OLDPWD");
+cd2.c:	delete_node(&session->env_list, index);
+cd2.c:	nodeatindex(&session->env_list, index, buffer);
+cd2.c:	index = node_search_index(session->env_list, "PWD");
+cd2.c:		delete_node(&session->env_list, index);
+cd2.c:		nodeatindex(&session->env_list, index, buffer2);
+cd2.c:		nodeatindex(&session->env_list, index, buffer);
+check_path.c:	char *pathcopy = duplicate(session->pathway);
+check_path.c:	char *token = tokenize(pathcopy, ":"), *str = session->args[0];
+check_path.c:		session->full_path = duplicate(str);
+check_path.c:			session->full_path = string;
+check_path.c:	session->full_path = duplicate(str);
+commands.c:	char *delim = ";|&", *string = session->buffer;
+commands.c:	for (i = 0; session->buffer[i] == ' ';)
+commands.c:	while (session->buffer[i])
+commands.c:			session->command_seperator[num++] = string[i];
+commands.c:				session->command_seperator[num++] = string[i];
+commands.c:		free(session->buffer);
+commands.c:		free(session->buffer);
+commands.c:	free(session->buffer);
+commands.c:	char **str = NULL, *ptr = NULL, *string = (session->buffer) + index;
+commands.c:		free(session->buffer);
+commands.c:	session->commands = str;
+commands.c:	for (i = 0; session->commands[i]; i++)
+commands.c:			result = execute_command(session, session->commands[i]);
+commands.c:		} else if (session->command_seperator[num] == '|' && !result)
+commands.c:			result = execute_command(session, session->commands[i]);
+commands.c:		} else if (session->command_seperator[num] == '&' && result)
+commands.c:			result = execute_command(session, session->commands[i]);
+commands.c:		} else if (session->command_seperator[num++] == ';')
+commands.c:			result = execute_command(session, session->commands[i]);
+commands.c:		setnull(session->command_seperator, i);
+commands.c:	freeargs(session->commands);
+commands.c:	if (compare(session->args[0], "echo") == 0 && session->args[1])
+commands.c:		string = session->args[1];
+commands.c:		session->args[1] = duplicate((tokenize(session->args[1], "\"")));
+commands.c:	freeargs(session->args);
+env.c:	while (session->args[count])
+env.c:	if (!(_isalpha(session->args[1][0])))
+env.c:	len = length(session->args[1]) + length(session->args[2]) + 2;
+env.c:	catenate(buffer, session->args[1]);
+env.c:	catenate(buffer, session->args[2]);
+env.c:	index = node_search_index(session->env_list, session->args[1]);
+env.c:		addendnode(&session->env_list, buffer);
+env.c:	delete_node(&session->env_list, index);
+env.c:	nodeatindex(&session->env_list, index, buffer);
+env.c:	list *head = session->env_list;
+env.c:	char **ptr = session->args;
+env.c:	while (session->args[i])
+env.c:		if (_isalpha(session->args[i][0]) || session->args[i][0] == '_')
+env.c:				delete_node(&session->env_list, foundVar);
+error.c:	alpha = itoa(session->linecount);
+error.c:	catenate(error, session->name);
+error.c:	catenate(error, session->args[0]);
+error.c:	if (session->args[1])
+error.c:		catenate(error, session->args[1]);
+free.c:	if (session->env_list)
+free.c:		freelist(session->env_list);
+free.c:	if (session->aliases)
+free.c:		freelist(session->aliases);
+free.c:	if (session->args)
+free.c:		freeargs(session->args);
+free.c:	freeargs(session->args);
+free.c:	free(session->buffer);
+shell.c:	list *tmp = session->env_list;
+shell.c:	session->env_strings = envList;
+shell2.c:	session->args = NULL;
+shell2.c:	session->env_strings = NULL;
+shell2.c:	session->linecount++;
+shell2.c:	len = _getline(&session->buffer, &buffersize, stdin);
+shell2.c:		free(session->buffer);
+shell2.c:		if (session->status)
+shell2.c:			exit(session->status);
+shell2.c:	ptr = char_locate('\n', session->buffer);
+shell2.c:	delete_comment(session->buffer);
+shell2.c:		freeargs(session->args);
+shell2.c:		freeargs(session->env_strings);
+shell2.c:		i = execve(session->full_path, session->args, session->env_strings);
+shell2.c:			freeargs(session->args);
+shell2.c:			freeargs(session->env_strings);
+shell2.c:			session->status = WEXITSTATUS(status);
+shell2.c:		free(session->full_path);
+shell2.c:		freeargs(session->env_strings);
+shell2.c:	if (session->status == 127 || session->status == 126)
+shell2.c:		freeargs(session->args);
+shell2.c:	ptr = char_locate('~', session->buffer);
+shell2.c:	index = node_search_index(session->env_list, "HOME");
+shell2.c:	string = getNodeAtIndex(session->env_list, index);
+shell2.c:	buffer = session->buffer;
+shell2.c:	session->buffer = newptr;
+string2.c:	session->args = malloc((sizeof(char *)) * (wordcount + 1));
+string2.c:	if (session->args == NULL)
+string2.c:		freeargs(session->commands);
+string2.c:		session->args[i] = duplicate(token);
+string2.c:	session->args[i] = NULL;
+variables.c:	while (session->args[i])
+variables.c:		ptr = session->args[i];
+variables.c:			ptr = session->args[i];
+variables.c:	list *node = session->env_list;
+variables.c:			session->args[index] = newptr;
+variables.c:	session->args[index] = newptr;
+variables.c:	string = print_number(session->status);
+variables.c:	session->args[index] = newptr;

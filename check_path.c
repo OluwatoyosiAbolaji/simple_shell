@@ -8,19 +8,19 @@
 void check_path(shell *session)
 {
 	int i = 1, len, a = 0;
-	char command[BUFF_MAX], *string = NULL;
-	char *pathcopy = duplicate(session->pathway);
-	char *token = tokenize(pathcopy, ":"), *str = session->args[0];
+	char command[BUFF_MAX], *string = NULL, *pathcopy = NULL;
+	char *token = NULL, *str = session->args[0];
 
 	i = access(str, X_OK);
 	while (a < BUFF_MAX)
 		setnull(command, a++);
-	if (!i)
+	if (!i || !(session->pathway))
 	{
 		session->full_path = duplicate(str);
-		free(pathcopy);
 		return;
 	}
+	pathcopy = duplicate(session->pathway);
+	token = tokenize(pathcopy, ":");
 	while (token)
 	{
 		len = length(token) + length(str) + 2;

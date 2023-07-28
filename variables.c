@@ -17,10 +17,10 @@ int check_variables(shell *session)
 		j = 0;
 		while (ptr[j])
 		{
-			if (ptr[j] == '$')
+			if (ptr[j] == '$' && ptr[j - 1] != '\\')
 			{
 				ptr[j] = '\0';
-				if (ptr[j + 1] == '$')
+				if (ptr[j + 1] == '$' && ptr[j] != '\\')
 					result = replace_pid(session, ptr, i);
 				else if (ptr[j + 1] == '?')
 					result = replace_exit(session, ptr, i);

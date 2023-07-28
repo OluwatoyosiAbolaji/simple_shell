@@ -66,7 +66,7 @@ int exitf(shell *session)
 		if (exitStatus == -1)
 		{
 			errno = EILLEGAL;
-			session->status = 2;
+			session->status = 126;
 			errorHandler(session);
 			return (0);
 		}
