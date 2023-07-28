@@ -12,8 +12,6 @@ void freeall(shell *session)
 		freelist(session->aliases);
 	if (session->args)
 		freeargs(session->args);
-	if (session->buffer)
-		free(session->buffer);
 }
 
 /**

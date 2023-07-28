@@ -30,6 +30,7 @@ void get_input(shell *session)
 	if (len == EOF)
 	{
 		freeall(session);
+		free(session->buffer);
 		if (session->status)
 			exit(session->status);
 		exit(EXIT_SUCCESS);
