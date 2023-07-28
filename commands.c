@@ -129,9 +129,16 @@ int execute_commands(shell *session)
 int execute_command(shell *session, char *command)
 {
 	int i;
+	char *string = NULL;
 
 	if (split(session, command) == 0)
 		return (-1);
+	if (compare(session->args[0], "echo") == 0 && session->args[1])
+	{
+		string = session->args[1];
+		session->args[1] = duplicate((tokenize(session->args[1], "\"")));
+		free(string);
+	}
 	i = check_variables(session);
 	if (i == -1)
 		return (-1);
