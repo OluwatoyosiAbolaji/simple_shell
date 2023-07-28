@@ -76,7 +76,7 @@ char *catenate(char *begin, char *end);
 int compare(char *a, char *b);
 int split(shell *session, char *str);
 char *print_number(int n);
-char **create_doubleptr(int number, shell *session, char *delim);
+char **create_doubleptr(int number, shell *session, char *delim, int index);
 
 /* linked list aid functions */
 list *addnode(list **head, char *string);

@@ -9,8 +9,10 @@
 int split_commands(shell *session)
 {
 	char *delim = ";|&", *string = session->buffer;
-	int i = 0, j = 0, command_count = 0, num = 0;
+	int i = 0, j = 0, command_count = 0, num = 0, a;
 
+	for (i = 0; session->buffer[i] == ' ';)
+		a = ++i;
 	while (session->buffer[i])
 	{
 		if (string[i] == ';')
@@ -36,9 +38,12 @@ int split_commands(shell *session)
 	{
 		free(session->buffer);
 		return (command_count);
-	}
-	if (!(create_doubleptr(command_count, session, delim)))
+	} else if (!(create_doubleptr(command_count, session, delim, a)))
+	{
+		free(session->buffer);
 		return (0);
+	}
+	free(session->buffer);
 	return (command_count);
 }
 
@@ -50,10 +55,10 @@ int split_commands(shell *session)
   *Return: double pointer or NULL
   */
 
-char **create_doubleptr(int number, shell *session, char *delim)
+char **create_doubleptr(int number, shell *session, char *delim, int index)
 {
 	int i = 0;
-	char **str = NULL, *ptr = NULL;
+	char **str = NULL, *ptr = NULL, *string = (session->buffer) + index;
 
 	str = malloc(sizeof(char *) * (number + 1));
 	if (str == NULL)
@@ -61,7 +66,7 @@ char **create_doubleptr(int number, shell *session, char *delim)
 		free(session->buffer);
 		return (NULL);
 	}
-	ptr = tokenize(session->buffer, delim);
+	ptr = tokenize(string, delim);
 	while (ptr)
 	{
 		str[i] = duplicate(ptr);
@@ -110,7 +115,6 @@ int execute_commands(shell *session)
 	}
 	for (i = 0; i < BUFF_MAX; i++)
 		setnull(session->command_seperator, i);
-	free(session->buffer);
 	freeargs(session->commands);
 	return (0);
 }
