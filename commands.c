@@ -51,6 +51,7 @@ int split_commands(shell *session)
   *create_doubleptr - creates a pointer of pointers
   *@number: number of elements inside the pointer array
   *@session: shell information
+  *@index: index of first char that is not a space
   *@delim: delimiter
   *Return: double pointer or NULL
   */
